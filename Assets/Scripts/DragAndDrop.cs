@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Revenged.Player
-{
-    
-}
 public class DragAndDrop : MonoBehaviour
 {
     private Camera _mainCamera;
@@ -33,8 +29,8 @@ public class DragAndDrop : MonoBehaviour
     private void Awake()
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
-        _contactFilter2D = new ContactFilter2D();
-        _overlappedColliders = new Collider2D[10];
+        _contactFilter2D = new ContactFilter2D().NoFilter();
+        _overlappedColliders = new Collider2D[1];
     }
 
     private void Start()
@@ -51,12 +47,20 @@ public class DragAndDrop : MonoBehaviour
             _moveAmount = _mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             _moveAmount += _offset;
             transform.Translate(_moveAmount);
-
+            
             if (_boxCollider2D.OverlapCollider(_contactFilter2D, _overlappedColliders) > 0)
             {
                 foreach (var coll in _overlappedColliders)
                 {
                     Debug.Log(coll);
+                    if (_boxCollider2D.bounds.center.x < coll.bounds.center.x)
+                        Debug.Log("LEFT");
+                    else
+                        Debug.Log("RIGHT");
+                    if (_boxCollider2D.bounds.center.y < coll.bounds.center.y)
+                        Debug.Log("BOTTOM");
+                    else
+                        Debug.Log("TOP");
                 }
             }
         }
