@@ -10,27 +10,18 @@ public class DragAndDrop : MonoBehaviour
     private bool _isDragging;
     private Vector2 _moveAmount;
     private Vector2 _offset;
-
-    private BoxCollider2D _boxCollider2D;
-    private ContactFilter2D _contactFilter2D;
-    private Collider2D[] _overlappedColliders;
+    private Vector2 _originPosition;
 
     public void OnMouseDown()
     {
+        _originPosition = transform.position;
         _isDragging = true;
-        _offset = transform.position - _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        UpdateOffset();
     }
 
     public void OnMouseUp()
     {
         _isDragging = false;
-    }
-
-    private void Awake()
-    {
-        _boxCollider2D = GetComponent<BoxCollider2D>();
-        _contactFilter2D = new ContactFilter2D().NoFilter();
-        _overlappedColliders = new Collider2D[1];
     }
 
     private void Start()
@@ -47,22 +38,27 @@ public class DragAndDrop : MonoBehaviour
             _moveAmount = _mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             _moveAmount += _offset;
             transform.Translate(_moveAmount);
-            
-            if (_boxCollider2D.OverlapCollider(_contactFilter2D, _overlappedColliders) > 0)
-            {
-                foreach (var coll in _overlappedColliders)
-                {
-                    Debug.Log(coll);
-                    if (_boxCollider2D.bounds.center.x < coll.bounds.center.x)
-                        Debug.Log("LEFT");
-                    else
-                        Debug.Log("RIGHT");
-                    if (_boxCollider2D.bounds.center.y < coll.bounds.center.y)
-                        Debug.Log("BOTTOM");
-                    else
-                        Debug.Log("TOP");
-                }
-            }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Card"))
+        {
+            
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Card"))
+        {
+            
+        }
+    }
+
+    private void UpdateOffset()
+    {
+        _offset = transform.position - _mainCamera.ScreenToWorldPoint(Input.mousePosition);
     }
 }
