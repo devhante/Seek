@@ -10,13 +10,15 @@ public class Card : MonoBehaviour
     
     private Camera _mainCamera;
     private SpriteRenderer _spriteRenderer;
+    private BoxCollider2D _collider;
     private bool _isDragging;
     private Vector2 _moveAmount;
     private Vector2 _offset;
     private Vector2 _originPosition;
-    private List<Card> _overlappedCards;
-    private Card _parentCard;
-    private Card _childCard;
+    [SerializeField] List<Card> _overlappedCards;
+    [SerializeField] private Card _parentCard;
+    [SerializeField] private Card _childCard;
+    [SerializeField] private List<Card> _childCards;
 
     public void OnMouseDown()
     {
@@ -24,10 +26,14 @@ public class Card : MonoBehaviour
         if (_parentCard != null)
         {
             _parentCard._childCard = null;
+            _parentCard.SetIgnoreCollision(false);
+            _parentCard.SetChildCards(null, new List<Card>());
+            _parentCard.SetIgnoreCollision(true);
             _parentCard = null;
         }
         _originPosition = transform.position;
         _isDragging = true;
+        SetTrigger(true);
         UpdateOffset();
         MoveUp();
     }
@@ -41,30 +47,41 @@ public class Card : MonoBehaviour
             float shortest = Vector3.Distance(transform.position, _overlappedCards[0].transform.position);
             foreach (Card card in _overlappedCards)
             {
+                if (card._childCard)
+                    continue;
+                
                 float distance = Vector3.Distance(transform.position, card.transform.position);
                 if (distance < shortest)
                 {
                     result = card;
                 }
             }
-            _parentCard = result;
-            result._childCard = this;
+
+            if (!result._childCard)
+            {
+                _parentCard = result;
+                result._childCard = this;
+            }
         }
         _overlappedCards.Clear();
-        if (_parentCard != null)
+        if (_parentCard)
         {
-            _overlappedCards.Add(_parentCard);
+            _parentCard.SetChildCards(this, _childCards);
+            _parentCard.SetIgnoreCollision(true);
         }
+        SetTrigger(false);
     }
 
     private void Awake()
     {
         _mainCamera = Camera.main;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _collider = GetComponent<BoxCollider2D>();
         _isDragging = false;
         _offset = Vector2.zero;
         _overlappedCards = new List<Card>();
         _childCard = null;
+        _childCards = new List<Card>();
     }
 
     private void Update()
@@ -75,7 +92,7 @@ public class Card : MonoBehaviour
             _moveAmount += _offset;
             transform.Translate(_moveAmount);
         }
-
+        
         if (_childCard != null)
         {
             _childCard.transform.position = childCardPosition.position;
@@ -86,7 +103,9 @@ public class Card : MonoBehaviour
     {
         if (_isDragging && other.CompareTag("Card"))
         {
+            Debug.Log("OnTriggerEnter2D");
             _overlappedCards.Add(other.GetComponent<Card>());
+            Debug.Log(_overlappedCards.Count);
         }
     }
 
@@ -94,9 +113,28 @@ public class Card : MonoBehaviour
     {
         if (_isDragging && other.CompareTag("Card"))
         {
+            Debug.Log("OnTriggerExit2D");
             _overlappedCards.Remove(other.GetComponent<Card>());
+            Debug.Log(_overlappedCards.Count);
         }
     }
+
+    public void SetTrigger(bool value)
+    {
+        _collider.isTrigger = value;
+        if (_childCard)
+            _childCard.SetTrigger(value);
+    }
+
+    public void SetIgnoreCollision(bool value)
+    {
+        foreach (Card card in _childCards)
+        {
+            Physics2D.IgnoreCollision(_collider, card._collider, value);
+        }
+        if (_parentCard)
+            _parentCard.SetIgnoreCollision(value);
+    } 
 
     private void UpdateOffset()
     {
@@ -106,6 +144,7 @@ public class Card : MonoBehaviour
     public void MoveUp()
     {
         int result = _spriteRenderer.sortingOrder;
+        
         
         foreach (var sr in transform.parent.GetComponentsInChildren<SpriteRenderer>())
         {
@@ -118,5 +157,18 @@ public class Card : MonoBehaviour
         {
             _childCard.MoveUp();
         }
+    }
+
+    public void SetChildCards(Card card, List<Card> cards)
+    {
+        _childCards.Clear();
+        if (card)
+            _childCards.Add(card);
+        foreach (Card item in cards)
+        {
+            _childCards.Add(item);
+        }
+        if (_parentCard)
+            _parentCard.SetChildCards(this, _childCards);
     }
 }
