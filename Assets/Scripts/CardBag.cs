@@ -4,29 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class CardBag : MonoBehaviour
+namespace Seek
 {
-    [SerializeField] private float spawnDistance;
-    [SerializeField] private GameObject cardPrafab;
-    [SerializeField] private Transform cardParent;
-
-    private void Start()
+    public class CardBag : MonoBehaviour
     {
-        StartCoroutine(SpawnCardRoutine());
-    }
+        [SerializeField] private float spawnDistance;
+        [SerializeField] private GameObject cardPrefab;
+        [SerializeField] private Transform cardParent;
 
-    private IEnumerator SpawnCardRoutine()
-    {
-        while (true)
+        private void OnMouseDown()
         {
             SpawnCard();
-            yield return new WaitForSeconds(10);
         }
-    }
 
-    private void SpawnCard()
-    {
-        Vector3 randPos = Random.insideUnitCircle.normalized * spawnDistance;
-        Instantiate(cardPrafab, transform.position + randPos, Quaternion.identity, cardParent);
+        private void SpawnCard()
+        {
+            Vector3 randPos = Random.insideUnitCircle;
+            Instantiate(cardPrefab, transform.position + randPos, Quaternion.identity, cardParent);
+        }
     }
 }
