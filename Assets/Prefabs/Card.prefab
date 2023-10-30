@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4551108021943829221
 RectTransform:
   m_ObjectHideFlags: 0
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 8262607744104960773}
   - component: {fileID: 5785524016484411335}
   m_Layer: 5
-  m_Name: Background (1)
+  m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,12 +188,12 @@ GameObject:
   - component: {fileID: 5211154656226666458}
   - component: {fileID: 6842455266537107504}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SynthesizeBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5211154656226666458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -394,6 +394,7 @@ GameObject:
   - component: {fileID: 4749998777705668401}
   - component: {fileID: 4749998777705668413}
   - component: {fileID: 4749998777705668414}
+  - component: {fileID: 2619018104845140745}
   m_Layer: 0
   m_Name: Card
   m_TagString: Card
@@ -533,6 +534,19 @@ MonoBehaviour:
   _parentCard: {fileID: 0}
   _childCard: {fileID: 0}
   _childCards: []
+--- !u!114 &2619018104845140745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749998777705668400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52123e4c7bb06d543891d973e472703d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SynthesizeBar: {fileID: 6842455266537107504}
 --- !u!1 &4749998777807673170
 GameObject:
   m_ObjectHideFlags: 0
