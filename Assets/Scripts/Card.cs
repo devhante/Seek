@@ -17,65 +17,10 @@ namespace Seek
         private Vector2 _offset;
         private Vector2 _originPosition;
         private List<Card> _overlappedCards;
+        private CardManager _cardManager;
         [SerializeField] private Card _parentCard;
         [SerializeField] private Card _childCard;
         [SerializeField] private List<Card> _childCards;
-
-        public void SetMouseDown()
-        {
-            Debug.Log(gameObject.name);
-            transform.SetAsFirstSibling();
-            if (_parentCard != null)
-            {
-                _parentCard._childCard = null;
-                _parentCard.SetIgnoreCollision(false);
-                _parentCard.SetChildCards(null, new List<Card>());
-                _parentCard.SetIgnoreCollision(true);
-                _parentCard = null;
-            }
-
-            _originPosition = transform.position;
-            _isDragging = true;
-            SetTrigger(true);
-            UpdateOffset();
-            MoveUp();
-        }
-
-        public void SetMouseUp()
-        {
-            _isDragging = false;
-            if (_overlappedCards.Count > 0)
-            {
-                Card result = _overlappedCards[0];
-                float shortest = Vector3.Distance(transform.position, _overlappedCards[0].transform.position);
-                foreach (Card card in _overlappedCards)
-                {
-                    if (card._childCard)
-                        continue;
-
-                    float distance = Vector3.Distance(transform.position, card.transform.position);
-                    if (distance < shortest)
-                    {
-                        result = card;
-                    }
-                }
-
-                if (!result._childCard)
-                {
-                    _parentCard = result;
-                    result._childCard = this;
-                }
-            }
-
-            _overlappedCards.Clear();
-            if (_parentCard)
-            {
-                _parentCard.SetChildCards(this, _childCards);
-                _parentCard.SetIgnoreCollision(true);
-            }
-
-            SetTrigger(false);
-        }
 
         private void Awake()
         {
@@ -87,8 +32,9 @@ namespace Seek
             _overlappedCards = new List<Card>();
             _childCard = null;
             _childCards = new List<Card>();
+            _cardManager = FindObjectOfType<CardManager>();
         }
-
+        
         private void Update()
         {
             if (_isDragging)
@@ -108,7 +54,7 @@ namespace Seek
         {
             RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(_mainCamera.ScreenPointToRay(Input.mousePosition));
         }
-
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (_isDragging && other.CompareTag("Card"))
@@ -124,15 +70,81 @@ namespace Seek
                 _overlappedCards.Remove(other.GetComponent<Card>());
             }
         }
+        
+        public void SetMouseDown()
+        {
+            DetachParent();
+            _originPosition = transform.position;
+            _isDragging = true;
+            SetTrigger(true);
+            UpdateOffset();
+            MoveUp();
+        }
 
-        public void SetTrigger(bool value)
+        public void SetMouseUp()
+        {
+            _isDragging = false;
+            AttachParent();
+            SetTrigger(false);
+        }
+        
+        private void DetachParent()
+        {
+            if (_parentCard)
+            {
+                _parentCard._childCard = null;
+                _parentCard.SetIgnoreCollision(false);
+                _parentCard.SetChildCards(null, new List<Card>());
+                _parentCard.SetIgnoreCollision(true);
+                _parentCard = null;
+            }
+        }
+
+        private void AttachParent()
+        {
+            Card card = GetNearestOverlappedCard();
+            if (card && !card._childCard)
+            {
+                _parentCard = card;
+                card._childCard = this;
+            }
+            _overlappedCards.Clear();
+            if (_parentCard)
+            {
+                _parentCard.SetChildCards(this, _childCards);
+                _parentCard.SetIgnoreCollision(true);
+            }
+        }
+        
+        private Card GetNearestOverlappedCard()
+        {
+            if (_overlappedCards.Count == 0) return null;
+            
+            Card result = _overlappedCards[0];
+            float shortest = Vector3.Distance(transform.position, _overlappedCards[0].transform.position);
+            foreach (Card card in _overlappedCards)
+            {
+                if (card._childCard)
+                    continue;
+
+                float distance = Vector3.Distance(transform.position, card.transform.position);
+                if (distance < shortest)
+                {
+                    result = card;
+                }
+            }
+
+            return result;
+        }
+
+        private void SetTrigger(bool value)
         {
             _collider.isTrigger = value;
             if (_childCard)
                 _childCard.SetTrigger(value);
         }
 
-        public void SetIgnoreCollision(bool value)
+        private void SetIgnoreCollision(bool value)
         {
             foreach (Card card in _childCards)
             {
@@ -148,25 +160,17 @@ namespace Seek
             _offset = transform.position - _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        public void MoveUp()
+        private void MoveUp()
         {
-            int result = _spriteRenderer.sortingOrder;
+            _spriteRenderer.sortingOrder = _cardManager.GetMaxSortingOrder() + 1;
 
-
-            foreach (var sr in transform.parent.GetComponentsInChildren<SpriteRenderer>())
-            {
-                result = Mathf.Max(result, sr.sortingOrder);
-            }
-
-            _spriteRenderer.sortingOrder = result + 1;
-
-            if (_childCard != null)
+            if (_childCard)
             {
                 _childCard.MoveUp();
             }
         }
 
-        public void SetChildCards(Card card, List<Card> cards)
+        private void SetChildCards(Card card, List<Card> cards)
         {
             _childCards.Clear();
             if (card)

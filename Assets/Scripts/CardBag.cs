@@ -8,19 +8,17 @@ namespace Seek
 {
     public class CardBag : MonoBehaviour
     {
-        [SerializeField] private float spawnDistance;
-        [SerializeField] private GameObject cardPrefab;
-        [SerializeField] private Transform cardParent;
+        private CardManager _cardManager;
+
+        private void Awake()
+        {
+            _cardManager = FindObjectOfType<CardManager>();
+        }
 
         private void OnMouseDown()
         {
-            SpawnCard();
-        }
-
-        private void SpawnCard()
-        {
             Vector3 randPos = Random.insideUnitCircle;
-            Instantiate(cardPrefab, transform.position + randPos, Quaternion.identity, cardParent);
+            _cardManager.SpawnCard(transform.position + randPos);
         }
     }
 }
