@@ -20,11 +20,12 @@ namespace Seek
             _cardSpriteRenderers = new List<SpriteRenderer>();
         }
 
-        public void SpawnCard(Vector3 spawnPos)
+        public void SpawnCard(CardName cardName, Vector3 spawnPos)
         {
             if (!CanSpawnCard()) return;
 
             GameObject card = Instantiate(cardPrefab, spawnPos, Quaternion.identity, cardParent);
+            card.GetComponent<Card>().CardName = cardName;
             _cardSpriteRenderers.Add(card.GetComponent<SpriteRenderer>());
             CardNumber++;
         }
@@ -44,6 +45,18 @@ namespace Seek
             }
             
             return result;
+        }
+
+        public CardName GetRandomCardName()
+        {
+            return CardName.Wood;
+        }
+
+        public void DestoyCard(Card card)
+        {
+            var sr = card.GetComponent<SpriteRenderer>();
+            _cardSpriteRenderers.Remove(sr);
+            Destroy(card.gameObject);
         }
     }
 }

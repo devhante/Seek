@@ -18,7 +18,7 @@ namespace Seek
         private void OnMouseDown()
         {
             Vector3 randPos = Random.insideUnitCircle;
-            _cardManager.SpawnCard(transform.position + randPos);
+            _cardManager.SpawnCard(_cardManager.GetRandomCardName(), transform.position + randPos);
         }
     }
 }

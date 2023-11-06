@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace Seek
 {
+    public enum CardName
+    {
+        None,
+        Wood,
+        Plate
+    }
+    
     public class Card : MonoBehaviour
     {
         [SerializeField] private Transform childCardPosition;
@@ -15,12 +22,24 @@ namespace Seek
         private bool _isDragging;
         private Vector2 _moveAmount;
         private Vector2 _offset;
-        private Vector2 _originPosition;
         private List<Card> _overlappedCards;
         private CardManager _cardManager;
-        [SerializeField] private Card _parentCard;
-        [SerializeField] private Card _childCard;
-        [SerializeField] private List<Card> _childCards;
+        private Card _parentCard;
+        private Card _childCard;
+        private ResourceManager _resourceManager;
+
+        private CardName _cardName;
+
+        public List<Card> ChildCards { get; set; }
+        public CardName CardName
+        {
+            get => _cardName;
+            set
+            {
+                _cardName = value;
+                _spriteRenderer.sprite = _resourceManager.GetCardSpriteByCardName(_cardName);
+            }
+        }
 
         private void Awake()
         {
@@ -31,8 +50,10 @@ namespace Seek
             _offset = Vector2.zero;
             _overlappedCards = new List<Card>();
             _childCard = null;
-            _childCards = new List<Card>();
+            ChildCards = new List<Card>();
             _cardManager = FindObjectOfType<CardManager>();
+            _resourceManager = FindObjectOfType<ResourceManager>();
+            CardName = CardName.None;
         }
         
         private void Update()
@@ -44,7 +65,7 @@ namespace Seek
                 transform.Translate(_moveAmount);
             }
 
-            if (_childCard != null)
+            if (_childCard)
             {
                 _childCard.transform.position = childCardPosition.position;
             }
@@ -74,7 +95,6 @@ namespace Seek
         public void SetMouseDown()
         {
             DetachParent();
-            _originPosition = transform.position;
             _isDragging = true;
             SetTrigger(true);
             UpdateOffset();
@@ -88,7 +108,7 @@ namespace Seek
             SetTrigger(false);
         }
         
-        private void DetachParent()
+        public void DetachParent()
         {
             if (_parentCard)
             {
@@ -111,7 +131,7 @@ namespace Seek
             _overlappedCards.Clear();
             if (_parentCard)
             {
-                _parentCard.SetChildCards(this, _childCards);
+                _parentCard.SetChildCards(this, ChildCards);
                 _parentCard.SetIgnoreCollision(true);
             }
         }
@@ -146,7 +166,7 @@ namespace Seek
 
         private void SetIgnoreCollision(bool value)
         {
-            foreach (Card card in _childCards)
+            foreach (Card card in ChildCards)
             {
                 Physics2D.IgnoreCollision(_collider, card._collider, value);
             }
@@ -172,16 +192,16 @@ namespace Seek
 
         private void SetChildCards(Card card, List<Card> cards)
         {
-            _childCards.Clear();
+            ChildCards.Clear();
             if (card)
-                _childCards.Add(card);
+                ChildCards.Add(card);
             foreach (Card item in cards)
             {
-                _childCards.Add(item);
+                ChildCards.Add(item);
             }
 
             if (_parentCard)
-                _parentCard.SetChildCards(this, _childCards);
+                _parentCard.SetChildCards(this, ChildCards);
         }
 
         public int GetSortingOrder()
