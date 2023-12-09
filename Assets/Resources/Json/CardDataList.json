@@ -1,0 +1,314 @@
+[
+  {
+    "id": "001",
+    "name": "白菜",
+    "image": "Sprites/Cards/Cabbage",
+    "bag": false
+  },
+  {
+    "id": "002",
+    "name": "菠菜",
+    "image": "Sprites/Cards/Spinach",
+    "bag": false
+  },
+  {
+    "id": "003",
+    "name": "浆果丛",
+    "image": "Sprites/Cards/BerryThicket",
+    "bag": true
+  },
+  {
+    "id": "004",
+    "name": "打火石",
+    "image": "Sprites/Cards/Flintstones",
+    "bag": false
+  },
+  {
+    "id": "005",
+    "name": "灯",
+    "image": "Sprites/Cards/Lamp",
+    "bag": false
+  },
+  {
+    "id": "006",
+    "name": "电磁铁",
+    "image": "Sprites/Cards/Electromagnetic",
+    "bag": false
+  },
+  {
+    "id": "007",
+    "name": "番茄",
+    "image": "Sprites/Cards/Tomato",
+    "bag": false
+  },
+  {
+    "id": "008",
+    "name": "工作台",
+    "image": "Sprites/Cards/Workbench",
+    "bag": false
+  },
+  {
+    "id": "009",
+    "name": "汉堡",
+    "image": "Sprites/Cards/Hamburger",
+    "bag": false
+  },
+  {
+    "id": "010",
+    "name": "鸡",
+    "image": "Sprites/Cards/Chicken",
+    "bag": true
+  },
+  {
+    "id": "011",
+    "name": "篮球",
+    "image": "Sprites/Cards/Basketball",
+    "bag": false
+  },
+  {
+    "id": "012",
+    "name": "螺丝",
+    "image": "Sprites/Cards/Screw",
+    "bag": false
+  },
+  {
+    "id": "013",
+    "name": "煤矿",
+    "image": "Sprites/Cards/CoalMine",
+    "bag": false
+  },
+  {
+    "id": "014",
+    "name": "木板",
+    "image": "Sprites/Cards/Plank",
+    "bag": false
+  },
+  {
+    "id": "015",
+    "name": "木棍",
+    "image": "Sprites/Cards/WoodenStick",
+    "bag": false
+  },
+  {
+    "id": "016",
+    "name": "木头",
+    "image": "Sprites/Cards/Timber",
+    "bag": false
+  },
+  {
+    "id": "017",
+    "name": "牛",
+    "image": "Sprites/Cards/Cow",
+    "bag": true
+  },
+  {
+    "id": "018",
+    "name": "牛肉",
+    "image": "Sprites/Cards/Beef",
+    "bag": false
+  },
+  {
+    "id": "019",
+    "name": "皮革",
+    "image": "Sprites/Cards/Leather",
+    "bag": false
+  },
+  {
+    "id": "020",
+    "name": "沙拉",
+    "image": "Sprites/Cards/Salad",
+    "bag": false
+  },
+  {
+    "id": "021",
+    "name": "石头",
+    "image": "Sprites/Cards/Stone",
+    "bag": true
+  },
+  {
+    "id": "022",
+    "name": "石油",
+    "image": "Sprites/Cards/Oil",
+    "bag": false
+  },
+  {
+    "id": "023",
+    "name": "屎",
+    "image": "Sprites/Cards/Feces",
+    "bag": false
+  },
+  {
+    "id": "024",
+    "name": "树",
+    "image": "Sprites/Cards/Tree",
+    "bag": true
+  },
+  {
+    "id": "025",
+    "name": "水",
+    "image": "Sprites/Cards/Water",
+    "bag": false
+  },
+  {
+    "id": "026",
+    "name": "铁板",
+    "image": "Sprites/Cards/IronPlate",
+    "bag": false
+  },
+  {
+    "id": "027",
+    "name": "铁块",
+    "image": "Sprites/Cards/IronBlock",
+    "bag": false
+  },
+  {
+    "id": "028",
+    "name": "铁矿",
+    "image": "Sprites/Cards/IronOre",
+    "bag": false
+  },
+  {
+    "id": "029",
+    "name": "铁桶",
+    "image": "Sprites/Cards/IronBarrel",
+    "bag": false
+  },
+  {
+    "id": "030",
+    "name": "土",
+    "image": "Sprites/Cards/Soil",
+    "bag": false
+  },
+  {
+    "id": "031",
+    "name": "土豆",
+    "image": "Sprites/Cards/Potato",
+    "bag": false
+  },
+  {
+    "id": "032",
+    "name": "兔子",
+    "image": "Sprites/Cards/Rabbit",
+    "bag": true
+  },
+  {
+    "id": "033",
+    "name": "兔子肉",
+    "image": "Sprites/Cards/RabbitMeat",
+    "bag": false
+  },
+  {
+    "id": "034",
+    "name": "羊",
+    "image": "Sprites/Cards/Sheep",
+    "bag": true
+  },
+  {
+    "id": "035",
+    "name": "羊毛",
+    "image": "Sprites/Cards/Wool",
+    "bag": false
+  },
+  {
+    "id": "036",
+    "name": "羊肉",
+    "image": "Sprites/Cards/Mutton",
+    "bag": false
+  },
+  {
+    "id": "037",
+    "name": "氯气",
+    "image": "Sprites/Cards/Chlorine",
+    "bag": false
+  },
+  {
+    "id": "038",
+    "name": "氧气瓶",
+    "image": "Sprites/Cards/OxygenCylinder",
+    "bag": false
+  },
+  {
+    "id": "039",
+    "name": "氧气",
+    "image": "Sprites/Cards/Oxygen",
+    "bag": false
+  },
+  {
+    "id": "040",
+    "name": "鱼",
+    "image": "Sprites/Cards/Fish",
+    "bag": true
+  },
+  {
+    "id": "041",
+    "name": "鱼肉",
+    "image": "Sprites/Cards/FishMeat",
+    "bag": false
+  },
+  {
+    "id": "042",
+    "name": "脏水",
+    "image": "Sprites/Cards/DirtyWater",
+    "bag": false
+  },
+  {
+    "id": "043",
+    "name": "猪",
+    "image": "Sprites/Cards/Pig",
+    "bag": true
+  },
+  {
+    "id": "044",
+    "name": "猪肉",
+    "image": "Sprites/Cards/Pork",
+    "bag": false
+  },
+  {
+    "id": "045",
+    "name": "砖块",
+    "image": "Sprites/Cards/Brick",
+    "bag": false
+  },
+  {
+    "id": "046",
+    "name": "钻石矿",
+    "image": "Sprites/Cards/DiamondMine",
+    "bag": false
+  },
+  {
+    "id": "047",
+    "name": "钻石",
+    "image": "Sprites/Cards/Diamond",
+    "bag": false
+  },
+  {
+    "id": "048",
+    "name": "蓝宝石",
+    "image": "Sprites/Cards/Sapphire",
+    "bag": false
+  },
+  {
+    "id": "049",
+    "name": "绿宝石",
+    "image": "Sprites/Cards/Emerald",
+    "bag": false
+  },
+  {
+    "id": "050",
+    "name": "锂电池",
+    "image": "Sprites/Cards/LithiumBattery",
+    "bag": false
+  },
+  {
+    "id": "051",
+    "name": "水桶",
+    "image": "Sprites/Cards/WaterBarrel",
+    "bag": false
+  },
+  {
+    "id": "052",
+    "name": "油桶",
+    "image": "Sprites/Cards/OilBarrel",
+    "bag": false
+  }
+]
